@@ -1,0 +1,32 @@
+select count(*) from Album;
+select title from album order by title limit 10;
+select title from album order by title desc limit 10;
+select * from track where name like 'Iron Maiden';
+select * from track where composer like 'Nirvana';
+select * from track where composer is null limit 10;
+select LastName, FirstName, city from customer order by LastName;
+select distinct city from customer order by city;
+select distinct country, city from customer order by country;
+select distinct company from customer where company is not null order by company;
+select count(*) from customer where company is null;
+select Name, MAX(Milliseconds) as length from track union select name, MIN(Milliseconds) as length from track;
+select name, composer from track where composer regexp 'Smith';
+select name, composer from track where name regexp 'Princess';
+select name, composer from track order by length(composer) desc limit 1;
+select name, composer from track where length(composer) between 3 and 5 order by composer;
+select name, composer from track where length(composer) between 13 and 15 order by composer;
+select * from Invoice where total between 9 and 12;
+select track.name, customer.lastname, customer.firstname, invoice.total from InvoiceLine, Track, Customer, Invoice where InvoiceLine.InvoiceId=Invoice.InvoiceId and Invoice.CustomerId=Customer.CustomerId and InvoiceLine.TrackId=Track.TrackId and invoice.total > 20;
+select * from Invoice where InvoiceDate like '2010/1/%';
+select track.name, album.title, artist.name from track, album, artist where Track.AlbumId=Album.AlbumId and Album.ArtistId=Artist.ArtistId and Artist.name='Queen';
+select track.name, album.title, artist.name from track, album, artist where Track.AlbumId=Album.AlbumId and Album.ArtistId=Artist.ArtistId and Track.name like 'Man%';
+select track.name, album.title, artist.name from track, album, artist where Track.AlbumId=Album.AlbumId and Album.ArtistId=Artist.ArtistId and Track.name regexp '[0-9]' limit 10;
+select track.name, album.title, artist.name from track, album, artist where Track.AlbumId=Album.AlbumId and Album.ArtistId=Artist.ArtistId and Track.name regexp '0|1|2|3|4|5|6|7|8|9$';
+select track.name as track, artist.name as artist from track, album, artist where Track.AlbumId=Album.AlbumId and Album.ArtistId=Artist.ArtistId order by artist limit 10;
+select track.name as track, artist.name as artist, track.composer as composer from track, album, artist where Track.AlbumId=Album.AlbumId and Album.ArtistId=Artist.ArtistId order by artist limit 10;
+
+// данный запрос не выведет данных, так как поле Album.title is not null
+select artist.name as artist from album, artist where Album.ArtistId=Artist.ArtistId and Album.title is null order by artist;
+
+select distinct em1.city, em2.lastname, em2.firstname  from Employee as em1 join Employee as em2 on em1.city=em2.city order by em1.city, em2.lastname;
+select distinct album.title, count(track.name) from track join album on track.AlbumId = album.AlbumId group by album.title;
